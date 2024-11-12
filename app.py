@@ -6,6 +6,7 @@ from fer import FER
 import random
 import sqlite3
 from datetime import datetime
+import csv
 
 app = Flask(__name__)
 CORS(app)
@@ -26,6 +27,30 @@ def init_db():
     conn.commit()
     conn.close()
 
+import csv
+from datetime import datetime
+
+def save_emotion_to_csv(emotion, song):
+    filename = 'emotion_song_data.csv'
+
+    # Debugging print
+    print(f"Attempting to write: {emotion}, {song} at {datetime.now()}")
+
+    try:
+        with open(filename, mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            if file.tell() == 0:
+                writer.writerow(['timestamp', 'detected_emotion', 'song_recommendation'])
+
+            # Write the emotion, song, and timestamp
+            writer.writerow([datetime.now(), emotion, song])
+
+        print(f"Successfully written to {filename}")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+# Test the function
+
 
 init_db()
 
@@ -38,7 +63,6 @@ def save_emotion_to_db(emotion, song):
     conn.close()
 
 @app.route('/')
-
 def index():
     return render_template('index.html')
 
@@ -66,42 +90,39 @@ def predict():
     # Expanded song recommendations with actual URLs
     song_recommendations = {
         "happy": [
+            {"song": "Aankh Marey - Simmba", "link": "https://www.youtube.com/watch?v=_KhQT-LGb-4"},
             {"song": "Happy - Pharrell Williams", "link": "https://www.youtube.com/watch?v=ZbZSe6N_BXs"},
             {"song": "Can't Stop the Feeling! - Justin Timberlake", "link": "https://www.youtube.com/watch?v=ru0K8uYEZWw"},
             {"song": "Coldplay - Hymn For The Weekend", "link": "https://www.youtube.com/watch?v=YykjpeuMNEk"},
             {"song": "Walking on Sunshine - Katrina and the Waves", "link": "https://www.youtube.com/watch?v=iPUmE-tne5U"},
-            {"song": "Aankh Marey - Simmba", "link": "https://www.youtube.com/watch?v=_KhQT-LGb-4"},
             {"song": "Kar Gayi Chull - Kapoor & Sons", "link": "https://www.youtube.com/watch?v=NTHz9ephYTw"},
-            {"song": "Uptown Funk - Mark Ronson ft. Bruno Mars", "link": "https://www.youtube.com/watch?v=OPf0YbXqDm0"},
-            {"song": "Good Life - OneRepublic", "link": "https://www.youtube.com/watch?v=3Loi6UnpLfA"},
-            {"song": "Dandelions - Ruth B.", "link": "https://www.youtube.com/watch?v=Kh6YlG5-WXA"},
-            {"song": "Pehli Baar - Neha Kakkar", "link": "https://www.youtube.com/watch?v=SZpL2mj_vgA"},
+            {"song": "Kabhi Kabhi Aditi Zindagi", "link": "https://www.youtube.com/watch?v=AX7t8ZwroHQ&ab_channel=T-Series"},
+            {"song": "Ocean Eyes", "link": "https://www.youtube.com/watch?v=AEypSrfhPkw&ab_channel=RhythmBoyz"},
         ],
         "sad": [
+            {"song": "Channa Mereya - Ae Dil Hai Mushkil", "link": "https://www.youtube.com/watch?v=284Ov7ysmfA"},
             {"song": "Someone Like You - Adele", "link": "https://www.youtube.com/watch?v=hLQl3WQQoQ0"},
             {"song": "Fix You - Coldplay", "link": "https://www.youtube.com/watch?v=k4V3Mo61fJM"},
             {"song": "Tears Dry on Their Own - Amy Winehouse", "link": "https://www.youtube.com/watch?v=ojdbDYahiCQ"},
             {"song": "The Night We Met - Lord Huron", "link": "https://www.youtube.com/watch?v=wGF7PswOENQ"},
             {"song": "Tujhe Kitna Chahne Lage - Kabir Singh", "link": "https://www.youtube.com/watch?v=AgX2II9si7w"},
-            {"song": "Channa Mereya - Ae Dil Hai Mushkil", "link": "https://www.youtube.com/watch?v=284Ov7ysmfA"},
+
             {"song": "When I Was Your Man - Bruno Mars", "link": "https://www.youtube.com/watch?v=ekzHIouo8Q4"},
             {"song": "I Will Always Love You - Whitney Houston", "link": "https://www.youtube.com/watch?v=3JWTaaS7LdU"},
             {"song": "Stay - Rihanna ft. Mikky Ekko", "link": "https://www.youtube.com/watch?v=JF8BRvqGCNs"},
-            {"song": "Agar Tum Saath Ho - Tamasha", "link": "https://www.youtube.com/watch?v=TI6HfZanr84"},
+            {"song": "Agar Tum Saath Ho - Tamasha", "link": "https://www.youtube.com/watch?v=sK7riqg2mr4&ab_channel=T-Series"},
         ],
         "angry": [
-            {"song": "Killing in the Name - Rage Against the Machine", "link": "https://www.youtube.com/watch?v=bWXazVhlyxQ"},
-            {"song": "Break Stuff - Limp Bizkit", "link": "https://www.youtube.com/watch?v=EItGdA24g2U"},
-            {"song": "Bodies - Drowning Pool", "link": "https://www.youtube.com/watch?v=06nYy3AqYxU"},
+            {"song": "Amrinder Gill - Yaarian", "link": "https://www.youtube.com/watch?v=Mp95smyVY68&ab_channel=MusicWaves"},
             {"song": "Duality - Slipknot", "link": "https://www.youtube.com/watch?v=6fVE8kSM43I"},
-            {"song": "Dhoom Machale - Dhoom", "link": "https://www.youtube.com/watch?v=3N2qZ8eZ8cU"},
+            {"song": "Dhoom Machale - Dhoom", "link": "https://www.youtube.com/watch?v=2uUmHTgT65I&ab_channel=YRF"},
+            {"song": "Tujhe Kitna Chahne Lage - Kabir Singh", "link": "https://www.youtube.com/watch?v=AgX2II9si7w"},
             {"song": "Aankh Marey - Simmba", "link": "https://www.youtube.com/watch?v=_KhQT-LGb-4"},
             {"song": "Enter Sandman - Metallica", "link": "https://www.youtube.com/watch?v=CD-E-LDc384"},
             {"song": "Numb - Linkin Park", "link": "https://www.youtube.com/watch?v=kXYiU_JCYtU"},
             {"song": "Believer - Imagine Dragons", "link": "https://www.youtube.com/watch?v=7wtfhZwyrcc"},
-            {"song": "Bulls on Parade - Rage Against The Machine", "link": "https://www.youtube.com/watch?v=P6Q8Z0LB9B4"},
         ],
-        "surprise": [
+        "surprised": [
             {"song": "Badtameez dil - Yeh Jawaani hai Deewani", "link": "https://www.youtube.com/watch?v=II2EO3Nw4m0"},
             {"song": "I Wasn't Expecting That - Jamie Lawson", "link": "https://www.youtube.com/watch?v=Y-lI_tgQMMk"},
             {"song": "Unexpected Song - Sarah Brightman", "link": "https://www.youtube.com/watch?v=b5ie8hitiSc"},
@@ -144,11 +165,13 @@ def predict():
     else:
         selected_song = {"song": "Let's open a playlist for you.", "link": "https://www.youtube.com/playlist?list=PL9bw4S5ePsEEqCMJSiYZ-KTtEjzVy0YvK"}
     save_emotion_to_db(dominant_emotion, selected_song['song'])
+    save_emotion_to_csv(dominant_emotion, selected_song['song'])
 
     return jsonify({
         "dominant_emotion": dominant_emotion,
         "selected_song": selected_song
     })
+
 @app.route('/history')
 def history():
     conn = sqlite3.connect('emotion_history.db')
