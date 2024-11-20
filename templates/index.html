@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RhythmAI: Intelligent Emotion & Music Companion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <style>
+
         :root {
+
             --bg-color: #ffffff;
             --text-color: #333333;
-            --button-bg: linear-gradient(45deg, #2ecc71, #27ae60); /* Emerald Gradient */
+            --button-bg: linear-gradient(45deg, #0056b3, #0056b3); /* Emerald Gradient */
             --button-text: #ffffff;
             --card-bg: #f9f9f9;
             --card-shadow: rgba(0, 0, 0, 0.1);
@@ -16,6 +21,7 @@
         }
 
         [data-theme="dark"] {
+            color: white;
             --bg-color: #121212;
             --text-color: #ffffff;
             --button-bg: linear-gradient(45deg, #34495e, #2c3e50); /* Dark Gradient */
@@ -30,21 +36,41 @@
             font-family: 'Helvetica', sans-serif;
             margin: 0;
             padding: 20px;
-            background-image: url("{{ url_for('static', filename='abc.jpg') }}");
+            background-image: url("{{ url_for('static', filename='image (7).png') }}");
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-
+        #particles-js{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind all other content */
+            pointer-events: none;
+        }
         h1 {
+            font-family: 'Playfair Display', serif;
             font-size: 3em;
             margin-bottom: 10px;
             text-align: center;
-            color: #8B8000;
+            color: #FFCC00;
             font-weight: bold;
             animation: pulse 2s infinite;
             text-shadow: 1px 1px 2px #000;
         }
+        /* For hiding scrollbars while allowing scrolling */
+        .container {
+            overflow: scroll;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        }
+
+        .container::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
@@ -52,6 +78,7 @@
         }
 
         h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 2em;
             color: #F7E7CE;
             text-align: center;
@@ -63,6 +90,7 @@
         }
 
         .emotion-options label {
+            color: white;
             margin: 0 15px;
             font-size: 1.2em;
         }
@@ -77,9 +105,10 @@
         }
 
         button {
+
             background: var(--button-bg);
-            color: var(--button-text);
-            border: 2px solid #2ecc71;
+
+            border: 2px solid#0056b3;;
             padding: 10px 20px;
             cursor: pointer;
             border-radius: 8px;
@@ -90,6 +119,7 @@
 
         button:hover {
             transform: scale(1.1);
+            color: #0056b3;
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2), 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
@@ -104,6 +134,7 @@
         }
 
         .loader {
+            color: #0056b3;
             border: 8px solid var(--card-bg);
             border-top: 8px solid var(--button-bg);
             border-radius: 50%;
@@ -118,6 +149,19 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .floating-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--button-bg);
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        .floating-icon:hover {
+            background-color: #34495e;
+        }
 
         #result p {
             font-size: 1.5em;
@@ -125,6 +169,7 @@
         }
 
         .emotion-icon, .emotion-response {
+            color: white;
             text-align: center;
             font-size: 2em;
             margin-top: 20px;
@@ -132,13 +177,15 @@
     </style>
 </head>
 <body>
+<div id="particles-js"></div>
 <h1>RhythmAI: Intelligent Emotion & Music Companion</h1>
 
 <div class="emotion-options">
     <h2>How are you feeling today?</h2>
     <label><input type="radio" name="emotion" value="happy"> Happy 😊</label>
     <label><input type="radio" name="emotion" value="sad"> Sad 😔</label>
-    <label><input type="radio" name="emotion" value="surprised"> Surprised 😮</label>
+    <label><input type="radio" name="emotion" value="surprise"> Surprised 😮</label>
+    <label><input type="radio" name="emotion" value="fear"> Fear 😨</label>
     <label><input type="radio" name="emotion" value="angry"> Angry 😠</label>
     <label><input type="radio" name="emotion" value="neutral"> Neutral 😐</label>
 </div>
@@ -159,7 +206,9 @@
 <a href="/history" class="history-button">
     <button type="button" class="pulse">View Emotion History</button>
 </a>
-
+<!--<div id="camera-icon" class="floating-icon">-->
+<!--    <i class="fa fa-camera"></i>-->
+<!--</div>-->
 <script>
     const video = document.getElementById('video');
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -207,23 +256,76 @@
         const emotionIcons = {
             happy: "😊",
             sad: "😔",
-            surprised: "😮",
             angry: "😠",
             fear: "😨",
             disgust: "🤢",
+            surprise: "😮",
         };
         const emotionResponses = {
             happy: "Wow, you look happy!",
             sad: "Oh no, feeling down?",
-            surprised: "Whoa, you seem surprised!",
             angry: "Looks like something's bugging you.",
             fear: "Something's scaring you, huh?",
+            surprise: "Whoa, you seem surprised!",
             disgust: "You look disgusted, what's wrong?",
         };
         const icon = emotionIcons[emotion] || "😶";
         const response = emotionResponses[emotion] || "Hard to tell!";
         document.getElementById('emotion-icon').innerHTML = icon;
         document.getElementById('emotion-response').innerText = response;
+            particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 50, // Fewer particles for a minimalist design
+                        density: { enable: true, value_area: 800 }
+                },
+                color: { value: "#ffffff" }, // White particles for a clean look
+                shape: {
+                    type: "circle", // Circle shape for simplicity
+                        stroke: { width: 0, color: "#000000" },
+                    polygon: { nb_sides: 5 }
+                },
+                opacity: {
+                    value: 0.7, // Softer opacity
+                        random: false, // Uniform opacity
+                        anim: { enable: false } // No opacity animation
+                },
+                size: {
+                    value: 3, // Uniform small size
+                        random: false, // No size variation
+                        anim: { enable: false } // No size animation
+                },
+                line_linked: {
+                    enable: false // Disable links for a cleaner look
+                },
+                move: {
+                    enable: true,
+                        speed: 1, // Very slow movement for elegance
+                        direction: "bottom", // Particles move downwards
+                        random: false, // Consistent motion
+                        straight: true, // Straight-line motion
+                        out_mode: "out", // Particles disappear after leaving the canvas
+                        bounce: false, // No bouncing for formal motion
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                    events: {
+                    onhover: { enable: false }, // No hover effects
+                    onclick: { enable: false }, // No click effects
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 0 },
+                    bubble: { distance: 0 },
+                    repulse: { distance: 0 },
+                    push: { particles_nb: 0 },
+                    remove: { particles_nb: 0 }
+                }
+            },
+            retina_detect: true // High-resolution particle rendering
+        });
+
     }
 </script>
 </body>
