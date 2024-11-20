@@ -39,6 +39,7 @@ def save_emotion_to_csv(emotion, song):
     try:
         with open(filename, mode='a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
+
             if file.tell() == 0:
                 writer.writerow(['timestamp', 'detected_emotion', 'song_recommendation'])
 
@@ -91,20 +92,24 @@ def predict():
     song_recommendations = {
         "happy": [
             {"song": "Aankh Marey - Simmba", "link": "https://www.youtube.com/watch?v=_KhQT-LGb-4"},
+            {"song": "Kabhi Kabhi Aditi Zindagi", "link": "https://www.youtube.com/watch?v=AX7t8ZwroHQ&ab_channel=T-Series"},
             {"song": "Happy - Pharrell Williams", "link": "https://www.youtube.com/watch?v=ZbZSe6N_BXs"},
             {"song": "Can't Stop the Feeling! - Justin Timberlake", "link": "https://www.youtube.com/watch?v=ru0K8uYEZWw"},
             {"song": "Coldplay - Hymn For The Weekend", "link": "https://www.youtube.com/watch?v=YykjpeuMNEk"},
             {"song": "Walking on Sunshine - Katrina and the Waves", "link": "https://www.youtube.com/watch?v=iPUmE-tne5U"},
             {"song": "Kar Gayi Chull - Kapoor & Sons", "link": "https://www.youtube.com/watch?v=NTHz9ephYTw"},
-            {"song": "Kabhi Kabhi Aditi Zindagi", "link": "https://www.youtube.com/watch?v=AX7t8ZwroHQ&ab_channel=T-Series"},
+
             {"song": "Ocean Eyes", "link": "https://www.youtube.com/watch?v=AEypSrfhPkw&ab_channel=RhythmBoyz"},
         ],
+
         "sad": [
             {"song": "Channa Mereya - Ae Dil Hai Mushkil", "link": "https://www.youtube.com/watch?v=284Ov7ysmfA"},
             {"song": "Someone Like You - Adele", "link": "https://www.youtube.com/watch?v=hLQl3WQQoQ0"},
             {"song": "Fix You - Coldplay", "link": "https://www.youtube.com/watch?v=k4V3Mo61fJM"},
+
             {"song": "Tears Dry on Their Own - Amy Winehouse", "link": "https://www.youtube.com/watch?v=ojdbDYahiCQ"},
             {"song": "The Night We Met - Lord Huron", "link": "https://www.youtube.com/watch?v=wGF7PswOENQ"},
+
             {"song": "Tujhe Kitna Chahne Lage - Kabir Singh", "link": "https://www.youtube.com/watch?v=AgX2II9si7w"},
 
             {"song": "When I Was Your Man - Bruno Mars", "link": "https://www.youtube.com/watch?v=ekzHIouo8Q4"},
@@ -112,6 +117,7 @@ def predict():
             {"song": "Stay - Rihanna ft. Mikky Ekko", "link": "https://www.youtube.com/watch?v=JF8BRvqGCNs"},
             {"song": "Agar Tum Saath Ho - Tamasha", "link": "https://www.youtube.com/watch?v=sK7riqg2mr4&ab_channel=T-Series"},
         ],
+
         "angry": [
             {"song": "Amrinder Gill - Yaarian", "link": "https://www.youtube.com/watch?v=Mp95smyVY68&ab_channel=MusicWaves"},
             {"song": "Duality - Slipknot", "link": "https://www.youtube.com/watch?v=6fVE8kSM43I"},
@@ -122,7 +128,8 @@ def predict():
             {"song": "Numb - Linkin Park", "link": "https://www.youtube.com/watch?v=kXYiU_JCYtU"},
             {"song": "Believer - Imagine Dragons", "link": "https://www.youtube.com/watch?v=7wtfhZwyrcc"},
         ],
-        "surprised": [
+
+        "surprise": [
             {"song": "Badtameez dil - Yeh Jawaani hai Deewani", "link": "https://www.youtube.com/watch?v=II2EO3Nw4m0"},
             {"song": "I Wasn't Expecting That - Jamie Lawson", "link": "https://www.youtube.com/watch?v=Y-lI_tgQMMk"},
             {"song": "Unexpected Song - Sarah Brightman", "link": "https://www.youtube.com/watch?v=b5ie8hitiSc"},
@@ -140,31 +147,33 @@ def predict():
             {"song": "Creep - Radiohead", "link": "https://www.youtube.com/watch?v=XFkzRNyygfk"},
             {"song": "Bad Guy - Billie Eilish", "link": "https://www.youtube.com/watch?v=DyDfgMOUjCI"},
             {"song": "Genda Phool - Delhi 6", "link": "https://www.youtube.com/watch?v=nqydfARGDh4"},
-            {"song": "Disturbia - Rihanna", "link": "https://www.youtube.com/watch?v=1Q4a_YWqDLo"},
-            {"song": "Rockstar - Post Malone", "link": "https://www.youtube.com/watch?v=mvwg2Y9syvA"},
+            {"song": "Numb - Linkin Park", "link": "https://www.youtube.com/watch?v=kXYiU_JCYtU"},
+            {"song": "Havana - Camila Cabello", "link": "https://www.youtube.com/watch?v=HCjNJDNzw8Y"},
             {"song": "Toxic - Britney Spears", "link": "https://www.youtube.com/watch?v=LOZuxwVk7TU"},
-            {"song": "Hate Me - Blue October", "link": "https://www.youtube.com/watch?v=kf0vFhXxI1I"},
-            {"song": "Heathens - Twenty One Pilots", "link": "https://www.youtube.com/watch?v=UPrVdEJdT6M"},
         ],
         "fear": [
             {"song": "Here Comes the Sun - The Beatles", "link": "https://www.youtube.com/watch?v=KQetemT1sWc"},
             {"song": "Waiting on the World to Change - John Mayer", "link": "https://www.youtube.com/watch?v=oBIxScJ5rlY"},
             {"song": "Dreams - Fleetwood Mac", "link": "https://www.youtube.com/watch?v=swJOIjjW69U"},
+            {"song": "Can't Stop the Feeling! - Justin Timberlake", "link": "https://www.youtube.com/watch?v=ru0K8uYEZWw"},
          {"song": "Budapest - George Ezra", "link": "https://www.youtube.com/watch?v=VHrLPs3_1Fs"},
             {"song": "Senorita - Zindagi Na Milegi Dobara", "link": "https://www.youtube.com/watch?v=2Z0Put0teCM"},
             {"song": "Kabira - Yeh Jawaani Hai Deewani", "link": "https://www.youtube.com/watch?v=jHNNMj5bNQw"},
-            {"song": "Disturbia - Rihanna", "link": "https://www.youtube.com/watch?v=1Q4a_YWqDLo"},
-            {"song": "Counting Stars - OneRepublic", "link": "https://www.youtube.com/watch?v=hT_nvWreIhg"},
             {"song": "It's My Life - Bon Jovi", "link": "https://www.youtube.com/watch?v=vx2u5uUu3DE"},
+
             {"song": "Channa Mereya - Ae Dil Hai Mushkil", "link": "https://www.youtube.com/watch?v=284Ov7ysmfA"},
         ]
     }
+
     # Select songs based on the dominant or user emotion
     if dominant_emotion in song_recommendations:
+
         selected_song = random.choice(song_recommendations[dominant_emotion])
+
     else:
         selected_song = {"song": "Let's open a playlist for you.", "link": "https://www.youtube.com/playlist?list=PL9bw4S5ePsEEqCMJSiYZ-KTtEjzVy0YvK"}
     save_emotion_to_db(dominant_emotion, selected_song['song'])
+
     save_emotion_to_csv(dominant_emotion, selected_song['song'])
 
     return jsonify({
@@ -180,5 +189,6 @@ def history():
     emotion_history = cursor.fetchall()
     conn.close()
     return render_template('history.html', emotion_history=emotion_history)
+
 if __name__ == '__main__':
     app.run(debug=True)
